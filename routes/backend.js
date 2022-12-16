@@ -9,6 +9,14 @@ router.get("/chat", function (req, res) {
     let curTime = new Date();
     let status = "";
     let hours = curTime.getHours();
+    let min = curTime.getMinutes();
+    let second = curTime.getSeconds();
+    if (second < 10) {
+      second = "0" + String(second);
+    }
+    if (min < 10) {
+      min = "0" + String(min);
+    }
     if (curTime.getHours() >= 12) {
       status = "下午";
       if (hours >= 13) hours -= 12;
@@ -17,11 +25,11 @@ router.get("/chat", function (req, res) {
       curTime.toLocaleDateString() +
       " " +
       status +
-      String(hours) +
+      hours +
       ":" +
-      String(curTime.getMinutes()) +
+      min +
       ":" +
-      String(curTime.getSeconds());
+      second;
     console.log(curTime);
     let newItem = new dbData({
       user: q.user,
