@@ -6,10 +6,27 @@ const dbData = require("../models/chatFormat");
 router.get("/chat", function (req, res) {
   let q = req.query;
   if (q.user != "" && q.say != "") {
+    let curTime = new Date();
+    let status = "";
+    let hours = curTime.getHours();
+    if (curTime.getHours() >= 12) {
+      status = "下午";
+      if (hours >= 13) hours -= 12;
+    } else status = "上午";
+    let set =
+      curTime.toLocaleDateString() +
+      " " +
+      status +
+      String(hours) +
+      ":" +
+      String(curTime.getMinutes()) +
+      ":" +
+      String(curTime.getSeconds());
+    console.log(curTime);
     let newItem = new dbData({
       user: q.user,
       say: q.say,
-      time: new Date().toLocaleString(),
+      time: set,
     });
     chatRecord.push(newItem);
   }
